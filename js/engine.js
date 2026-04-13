@@ -1,6 +1,9 @@
 /**
  * WOTI 匹配引擎：7 维 L/M/H，与标准模板 Manhattan 距离；
  * 相似度 = 1 - distance/(dimCount×2)；低于阈值走兜底；闸门题可覆盖隐藏结局。
+ *
+ * COMP（清醒竞技者）仅在与模板距离为 0 时允许命中；距离 >=1 时跳过，避免「差一点」仍判 COMP。
+ * 命中 COMP 后，有 25% 概率被 JOKE（±25% 浮动梗）替代。
  */
 
 export function stripPattern(patternStr) {
@@ -83,8 +86,23 @@ export function rankPatterns(userBuckets, patterns) {
   return entries;
 }
 
+const COMP_STRICT_CODE = 'COMP';
+const JOKE_CODE = 'JOKE';
+/** COMP 命中后替换为 JOKE 的概率（WG ±25% 梗） */
+export const COMP_TO_JOKE_CHANCE = 0.25;
+
+/**
+ * 去掉「距离 > 0 的 COMP」后再取最佳，压低 COMP 出现率。
+ * @param {{ code: string, distance: number, similarity: number }[]} rank
+ */
+export function rankForOutcomePick(rank) {
+  const filtered = rank.filter((e) => e.code !== COMP_STRICT_CODE || e.distance === 0);
+  return filtered.length ? filtered : rank;
+}
+
 /**
  * @param {string|null|undefined} gateOutcomeOverride
+ * @param {() => number} [randomFn] 返回 [0,1)，默认 Math.random；用于 COMP→JOKE 的 25% 判定与测试
  */
 export function resolveOutcome({
   gateOutcomeOverride,
@@ -92,6 +110,7 @@ export function resolveOutcome({
   patterns,
   matchThreshold,
   fallbackCode,
+  randomFn = Math.random,
 }) {
   if (gateOutcomeOverride) {
     return {
@@ -101,12 +120,19 @@ export function resolveOutcome({
     };
   }
   const rank = rankPatterns(userBuckets, patterns);
-  const best = rank[0];
+  const pickRank = rankForOutcomePick(rank);
+  const best = pickRank[0];
   if (!best) {
     return { outcomeCode: fallbackCode, reason: 'fallback', rank };
   }
   if (best.similarity < matchThreshold) {
     return { outcomeCode: fallbackCode, reason: 'fallback', best, rank };
   }
-  return { outcomeCode: best.code, reason: 'match', best, rank };
+  let outcomeCode = best.code;
+  let reason = 'match';
+  if (outcomeCode === COMP_STRICT_CODE && randomFn() < COMP_TO_JOKE_CHANCE) {
+    outcomeCode = JOKE_CODE;
+    reason = 'comp-joke';
+  }
+  return { outcomeCode, reason, best, rank };
 }

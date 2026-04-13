@@ -542,6 +542,10 @@ details.dim-readout summary {
   background: color-mix(in oklab, var(--bg) 75%, var(--accent));
 }
 
+.gallery-badge-floating {
+  background: color-mix(in oklab, var(--bg) 70%, #c49a6c);
+}
+
 .gallery-card-name {
   font-size: 1.05rem;
   font-weight: 600;

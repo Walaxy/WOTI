@@ -6,7 +6,9 @@ import {
   manhattanDistanceBuckets,
   similarityFromDistance,
   rankPatterns,
+  rankForOutcomePick,
   resolveOutcome,
+  COMP_TO_JOKE_CHANCE,
   aggregateRawScores,
   sumsToBuckets,
 } from '../js/engine.js';
@@ -71,6 +73,73 @@ test('resolveOutcome: fallback when similarity low', () => {
   });
   assert.equal(res.outcomeCode, 'VOID');
   assert.equal(res.reason, 'fallback');
+});
+
+test('resolveOutcome: COMP only when distance 0', () => {
+  const patterns = {
+    COMP: 'LLL-LLLL',
+    FOO: 'HLL-LLLL',
+  };
+  const allL = Array(7).fill('L');
+  const exact = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: allL,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+  });
+  assert.equal(exact.outcomeCode, 'COMP');
+  assert.equal(exact.best.distance, 0);
+
+  const oneOff = ['M', 'L', 'L', 'L', 'L', 'L', 'L'];
+  const r = rankPatterns(oneOff, patterns);
+  assert.equal(r[0].code, 'COMP');
+  assert.equal(r[0].distance, 1);
+  const soft = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: oneOff,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+  });
+  assert.equal(soft.outcomeCode, 'FOO');
+  assert.equal(soft.best.code, 'FOO');
+});
+
+test('rankForOutcomePick removes soft COMP', () => {
+  const rank = [
+    { code: 'COMP', distance: 1, similarity: 0.93 },
+    { code: 'GROW', distance: 1, similarity: 0.93 },
+  ];
+  const pick = rankForOutcomePick(rank);
+  assert.equal(pick[0].code, 'GROW');
+});
+
+test('resolveOutcome: COMP exact may become JOKE via rng', () => {
+  const patterns = { COMP: 'LLL-LLLL', FOO: 'HHH-HHHH' };
+  const allL = Array(7).fill('L');
+  const joke = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: allL,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+    randomFn: () => COMP_TO_JOKE_CHANCE / 2,
+  });
+  assert.equal(joke.outcomeCode, 'JOKE');
+  assert.equal(joke.reason, 'comp-joke');
+  assert.equal(joke.best.code, 'COMP');
+
+  const comp = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: allL,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+    randomFn: () => COMP_TO_JOKE_CHANCE + 0.01,
+  });
+  assert.equal(comp.outcomeCode, 'COMP');
+  assert.equal(comp.reason, 'match');
 });
 
 test('aggregateRawScores requires 2 answers per dimension', () => {

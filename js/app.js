@@ -224,10 +224,14 @@ function computeAndRenderResult() {
       ? '闸门题触发隐藏结局'
       : resolved.reason === 'fallback'
         ? `最高相似度低于 ${Math.round(outcomesData.matchThreshold * 100)}%，已匹配兜底类型`
-        : '与标准模板最接近';
+        : resolved.reason === 'comp-joke'
+          ? 'WG 精心设计的±25%浮动机制：清醒竞技者 → 浮动结局'
+          : '与标准模板最接近';
 
   let simLine = '';
-  if (
+  if (resolved.reason === 'comp-joke' && resolved.best) {
+    simLine = `底层匹配：COMP · 相似度 ${(resolved.best.similarity * 100).toFixed(1)}%（已被 ±25% 浮动接管）`;
+  } else if (
     (resolved.reason === 'match' || resolved.reason === 'oily-after-gate') &&
     resolved.best
   ) {
