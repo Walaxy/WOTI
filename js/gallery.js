@@ -53,6 +53,7 @@ function categoryLabel(code, fallbackCode, hiddenCode) {
   if (code === hiddenCode) return { className: 'gallery-badge gallery-badge-hidden', text: '隐藏' };
   if (code === 'JOKE') return { className: 'gallery-badge gallery-badge-floating', text: '浮动' };
   if (code === 'BODY') return { className: 'gallery-badge gallery-badge-body', text: '殉爆' };
+  if (code === 'WORM') return { className: 'gallery-badge gallery-badge-worm', text: '误解' };
   return { className: 'gallery-badge gallery-badge-standard', text: '标准' };
 }
 
@@ -65,7 +66,17 @@ function renderCards(outcomes, patterns, fallbackCode, hiddenCode) {
   standard.sort((a, b) => a.code.localeCompare(b.code));
   special.sort((a, b) => {
     const order = (c) =>
-      c === fallbackCode ? 0 : c === hiddenCode ? 1 : c === 'JOKE' ? 2 : c === 'BODY' ? 3 : 4;
+      c === fallbackCode
+        ? 0
+        : c === hiddenCode
+          ? 1
+          : c === 'JOKE'
+            ? 2
+            : c === 'BODY'
+              ? 3
+              : c === 'WORM'
+                ? 4
+                : 5;
     return order(a.code) - order(b.code);
   });
 

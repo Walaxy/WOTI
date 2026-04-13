@@ -246,13 +246,17 @@ function computeAndRenderResult() {
           ? 'WG 精心设计的±25%浮动机制：清醒竞技者 → 浮动结局'
           : resolved.reason === 'comp-body'
             ? '弹药架殉爆 RNG：清醒竞技者 → 尸体'
-            : '与标准模板最接近';
+            : resolved.reason === 'comp-worm'
+              ? '野队聊天 RNG：清醒竞技者 → 高效蛆（被误解体质）'
+              : '与标准模板最接近';
 
   let simLine = '';
   if (resolved.reason === 'comp-joke' && resolved.best) {
     simLine = `底层匹配：COMP · 相似度 ${(resolved.best.similarity * 100).toFixed(1)}%（已被 ±25% 浮动接管）`;
   } else if (resolved.reason === 'comp-body' && resolved.best) {
     simLine = `底层匹配：COMP · 相似度 ${(resolved.best.similarity * 100).toFixed(1)}%（已被弹药架接管）`;
+  } else if (resolved.reason === 'comp-worm' && resolved.best) {
+    simLine = `底层匹配：COMP · 相似度 ${(resolved.best.similarity * 100).toFixed(1)}%（已被野队误解梗接管）`;
   } else if (
     (resolved.reason === 'match' || resolved.reason === 'oily-after-gate') &&
     resolved.best

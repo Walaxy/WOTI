@@ -10,6 +10,7 @@ import {
   resolveOutcome,
   COMP_TO_JOKE_CHANCE,
   COMP_TO_BODY_CHANCE,
+  COMP_TO_WORM_CHANCE,
   aggregateRawScores,
   sumsToBuckets,
 } from '../js/engine.js';
@@ -158,6 +159,24 @@ test('resolveOutcome: COMP exact may become JOKE via rng', () => {
   assert.equal(body.outcomeCode, 'BODY');
   assert.equal(body.reason, 'comp-body');
   assert.equal(body.best.code, 'COMP');
+
+  let wcall = 0;
+  const worm = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: allL,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+    randomFn: () => {
+      wcall += 1;
+      if (wcall === 1) return COMP_TO_JOKE_CHANCE + 0.01;
+      if (wcall === 2) return COMP_TO_BODY_CHANCE + 0.01;
+      return COMP_TO_WORM_CHANCE / 2;
+    },
+  });
+  assert.equal(worm.outcomeCode, 'WORM');
+  assert.equal(worm.reason, 'comp-worm');
+  assert.equal(worm.best.code, 'COMP');
 });
 
 test('aggregateRawScores requires 2 answers per dimension', () => {

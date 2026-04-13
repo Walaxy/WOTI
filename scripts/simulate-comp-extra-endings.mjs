@@ -1,11 +1,12 @@
 /**
- * 在「答卷恰好匹配 COMP 模板（距离 0）」前提下，统计 COMP→JOKE / COMP→BODY / 仍为 COMP 的触发频率。
- * 用于核对 engine.js 中 COMP_TO_JOKE_CHANCE、COMP_TO_BODY_CHANCE 与实现一致。
+ * 在「答卷恰好匹配 COMP 模板（距离 0）」前提下，统计 COMP→JOKE / COMP→BODY / COMP→WORM / 仍为 COMP 的触发频率。
+ * 用于核对 engine.js 中 COMP_TO_JOKE_CHANCE、COMP_TO_BODY_CHANCE、COMP_TO_WORM_CHANCE 与实现一致。
  *
- * 理论概率（独立两次 randomFn 判定）：
+ * 理论概率（JOKE → BODY → WORM 依次判定）：
  *   P(JOKE) = j
  *   P(BODY) = (1 - j) * b
- *   P(COMP) = (1 - j) * (1 - b)
+ *   P(WORM) = (1 - j) * (1 - b) * w
+ *   P(COMP) = (1 - j) * (1 - b) * (1 - w)
  *
  * 用法: node scripts/simulate-comp-extra-endings.mjs [模拟次数，默认 100_000]
  */
@@ -17,6 +18,7 @@ import {
   stripPattern,
   COMP_TO_JOKE_CHANCE,
   COMP_TO_BODY_CHANCE,
+  COMP_TO_WORM_CHANCE,
 } from '../js/engine.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -34,9 +36,11 @@ const userBuckets = stripPattern(compTmpl).split('');
 
 const j = COMP_TO_JOKE_CHANCE;
 const b = COMP_TO_BODY_CHANCE;
+const w = COMP_TO_WORM_CHANCE;
 const pJokeTheory = j;
 const pBodyTheory = (1 - j) * b;
-const pCompTheory = (1 - j) * (1 - b);
+const pWormTheory = (1 - j) * (1 - b) * w;
+const pCompTheory = (1 - j) * (1 - b) * (1 - w);
 
 function oneRun() {
   const { outcomeCode, reason } = resolveOutcome({
@@ -64,9 +68,11 @@ for (let i = 0; i < runs; i++) {
       ? 'comp-joke'
       : outcomeCode === 'BODY'
         ? 'comp-body'
-        : outcomeCode === 'COMP'
-          ? 'match'
-          : null;
+        : outcomeCode === 'WORM'
+          ? 'comp-worm'
+          : outcomeCode === 'COMP'
+            ? 'match'
+            : null;
   if (expectedReason && reason !== expectedReason) {
     reasonMismatch += 1;
   }
@@ -75,23 +81,25 @@ for (let i = 0; i < runs; i++) {
 const pct = (n) => ((n / runs) * 100).toFixed(2);
 const nJoke = counts.JOKE ?? 0;
 const nBody = counts.BODY ?? 0;
+const nWorm = counts.WORM ?? 0;
 const nComp = counts.COMP ?? 0;
-const other = runs - nJoke - nBody - nComp;
+const other = runs - nJoke - nBody - nWorm - nComp;
 
 console.log('COMP 分支模拟（固定答卷 = COMP 模板精确匹配，无闸门覆盖）\n');
 console.log(`模拟次数: ${runs}`);
 console.log(`COMP 模板: ${compTmpl} → ${userBuckets.join('')}`);
-console.log(`引擎常量: COMP_TO_JOKE_CHANCE=${j}, COMP_TO_BODY_CHANCE=${b}\n`);
+console.log(`引擎常量: COMP_TO_JOKE_CHANCE=${j}, COMP_TO_BODY_CHANCE=${b}, COMP_TO_WORM_CHANCE=${w}\n`);
 
 console.log('理论概率:');
 console.log(
-  `  JOKE  ${(pJokeTheory * 100).toFixed(2)}%  |  BODY  ${(pBodyTheory * 100).toFixed(2)}%  |  仍为 COMP  ${(pCompTheory * 100).toFixed(2)}%\n`,
+  `  JOKE  ${(pJokeTheory * 100).toFixed(2)}%  |  BODY  ${(pBodyTheory * 100).toFixed(2)}%  |  WORM  ${(pWormTheory * 100).toFixed(2)}%  |  仍为 COMP  ${(pCompTheory * 100).toFixed(2)}%\n`,
 );
 
 console.log('模拟结果:');
 for (const [label, n, theory] of [
   ['JOKE', nJoke, pJokeTheory],
   ['BODY', nBody, pBodyTheory],
+  ['WORM', nWorm, pWormTheory],
   ['COMP', nComp, pCompTheory],
 ]) {
   const deltaPct = ((n / runs - theory) * 100).toFixed(2);
