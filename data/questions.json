@@ -89,6 +89,7 @@
       "options": [
         { "label": "还有没有免费的锁子? 这几天野队全是锁, 我也要用, 反正360又不查", "score": 3 },
         { "label": "嘴上谴责, 但是自己照样用, 反正360又不查", "score": 2 },
+        { "label": "直接开骂", "score": 1 },
         { "label": "先骂一顿, 再转发成聊天记录, 分享群号, 召唤霉菌", "score": 1 }
       ]
     },
@@ -162,19 +163,11 @@
         "outcomeOverride": "YOUSH"
       },
       {
-        "label": "要是我好好玩, 我也能有1500",
-        "outcomeOverride": null
+        "label": "卖队友打出来的吧, 要是我好好玩, 我也能有1500",
+        "outcomeOverride": "YOUSH"
       },
       {
-        "label": "还行, 比我差一点",
-        "outcomeOverride": null
-      },
-      {
-        "label": "可以, 比我高一点",
-        "outcomeOverride": null
-      },
-      {
-        "label": "还行, 和我差不多",
+        "label": "还行, 是个可靠的人",
         "outcomeOverride": null
       },
       {
