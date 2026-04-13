@@ -546,6 +546,10 @@ details.dim-readout summary {
   background: color-mix(in oklab, var(--bg) 70%, #c49a6c);
 }
 
+.gallery-badge-body {
+  background: color-mix(in oklab, var(--bg) 68%, #c45c4a);
+}
+
 .gallery-card-name {
   font-size: 1.05rem;
   font-weight: 600;

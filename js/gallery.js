@@ -52,6 +52,7 @@ function categoryLabel(code, fallbackCode, hiddenCode) {
   if (code === fallbackCode) return { className: 'gallery-badge gallery-badge-fallback', text: '兜底' };
   if (code === hiddenCode) return { className: 'gallery-badge gallery-badge-hidden', text: '隐藏' };
   if (code === 'JOKE') return { className: 'gallery-badge gallery-badge-floating', text: '浮动' };
+  if (code === 'BODY') return { className: 'gallery-badge gallery-badge-body', text: '殉爆' };
   return { className: 'gallery-badge gallery-badge-standard', text: '标准' };
 }
 
@@ -64,7 +65,7 @@ function renderCards(outcomes, patterns, fallbackCode, hiddenCode, matchThreshol
   standard.sort((a, b) => a.code.localeCompare(b.code));
   special.sort((a, b) => {
     const order = (c) =>
-      c === fallbackCode ? 0 : c === hiddenCode ? 1 : c === 'JOKE' ? 2 : 3;
+      c === fallbackCode ? 0 : c === hiddenCode ? 1 : c === 'JOKE' ? 2 : c === 'BODY' ? 3 : 4;
     return order(a.code) - order(b.code);
   });
 
@@ -118,7 +119,10 @@ function openDetail(o, patterns, fallbackCode, hiddenCode, matchThreshold, { rep
     extra += `<div class="gallery-detail-block"><h3>触发条件</h3><p>在全部 14 题之后的闸门题中，选择「认定高胜率都是刷分或开挂」的选项。</p></div>`;
   }
   if (o.code === 'JOKE') {
-    extra += `<div class="gallery-detail-block"><h3>触发条件</h3><p>与「清醒竞技者（COMP）」7 维模板完全匹配时，25% 概率由本结局替代（致敬游戏内 ±25% 伤害/散布浮动）。</p></div>`;
+    extra += `<div class="gallery-detail-block"><h3>触发条件</h3><p>与「清醒竞技者（COMP）」7 维模板完全匹配时，<strong>先</strong>按概率判定是否进入本结局（未进入时才会继续判定弹药架）；概率数值见引擎（对用户文案仍用 ±25% 梗）。</p></div>`;
+  }
+  if (o.code === 'BODY') {
+    extra += `<div class="gallery-detail-block"><h3>触发条件</h3><p>与「清醒竞技者（COMP）」7 维模板完全匹配，且<strong>未</strong>进入「±25% 浮动」结局时，有 33% 概率由本结局替代（致敬弹药架殉爆）。</p></div>`;
   }
 
   title.innerHTML = `<span class="gallery-code">${escapeHtml(o.code)}</span> ${escapeHtml(o.nameZh)} <span class="${cat.className}">${escapeHtml(

@@ -62,12 +62,13 @@ function toggleTheme() {
   el.themeToggle().textContent = next === 'dark' ? '浅色' : '深色';
 }
 
-/** 完成全部题目并结算后开放图鉴；链接分享仅展示结局时不显示结算区图鉴按钮。 */
+/** 顶栏图鉴：本地已解锁后常驻。结算区按钮：本次为完整评测结算，或曾解锁过图鉴（与顶栏一致），避免仅 hash 预览时误关。 */
 function syncGalleryUi() {
   const unlocked = localStorage.getItem(GALLERY_UNLOCK_KEY) === '1';
   const fullCompletion = lastResult?.resolved != null;
   el.navGallery()?.classList.toggle('hidden', !unlocked);
-  el.btnGallery()?.classList.toggle('hidden', !fullCompletion);
+  const showResultGalleryBtn = unlocked || fullCompletion;
+  el.btnGallery()?.classList.toggle('hidden', !showResultGalleryBtn);
 }
 
 function unlockGalleryAfterSettlement() {
@@ -91,7 +92,7 @@ function parseHashOutcome() {
   const raw = window.location.hash.replace(/^#/, '');
   if (!raw) return null;
   if (raw.startsWith(HASH_PREFIX)) {
-    return decodeURIComponent(raw.slice(HASH_PREFIX.length));
+    return decodeURIComponent(raw.slice(HASH_PREFIX.length)).toUpperCase();
   }
   if (/^[A-Z0-9-]{2,6}$/i.test(raw)) {
     return raw.toUpperCase();
@@ -101,7 +102,8 @@ function parseHashOutcome() {
 
 /** 地址栏 hash 由刚完成的评测写入时，会触发 hashchange；勿用「仅链接」视图覆盖已算好的维度表。 */
 function isHashSyncedFromCompletedQuiz(code) {
-  return lastResult?.resolved != null && lastResult?.oc?.code === code;
+  const a = lastResult?.oc?.code;
+  return lastResult?.resolved != null && a != null && a === code;
 }
 
 function setHashForOutcome(code) {
@@ -242,11 +244,15 @@ function computeAndRenderResult() {
         ? `最高相似度低于 ${Math.round(outcomesData.matchThreshold * 100)}%，已匹配兜底类型`
         : resolved.reason === 'comp-joke'
           ? 'WG 精心设计的±25%浮动机制：清醒竞技者 → 浮动结局'
-          : '与标准模板最接近';
+          : resolved.reason === 'comp-body'
+            ? '弹药架殉爆 RNG：清醒竞技者 → 尸体'
+            : '与标准模板最接近';
 
   let simLine = '';
   if (resolved.reason === 'comp-joke' && resolved.best) {
     simLine = `底层匹配：COMP · 相似度 ${(resolved.best.similarity * 100).toFixed(1)}%（已被 ±25% 浮动接管）`;
+  } else if (resolved.reason === 'comp-body' && resolved.best) {
+    simLine = `底层匹配：COMP · 相似度 ${(resolved.best.similarity * 100).toFixed(1)}%（已被弹药架接管）`;
   } else if (
     (resolved.reason === 'match' || resolved.reason === 'oily-after-gate') &&
     resolved.best

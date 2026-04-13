@@ -9,6 +9,7 @@ import {
   rankForOutcomePick,
   resolveOutcome,
   COMP_TO_JOKE_CHANCE,
+  COMP_TO_BODY_CHANCE,
   aggregateRawScores,
   sumsToBuckets,
 } from '../js/engine.js';
@@ -141,6 +142,22 @@ test('resolveOutcome: COMP exact may become JOKE via rng', () => {
   });
   assert.equal(comp.outcomeCode, 'COMP');
   assert.equal(comp.reason, 'match');
+
+  let call = 0;
+  const body = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: allL,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+    randomFn: () => {
+      call += 1;
+      return call === 1 ? COMP_TO_JOKE_CHANCE + 0.01 : COMP_TO_BODY_CHANCE / 2;
+    },
+  });
+  assert.equal(body.outcomeCode, 'BODY');
+  assert.equal(body.reason, 'comp-body');
+  assert.equal(body.best.code, 'COMP');
 });
 
 test('aggregateRawScores requires 2 answers per dimension', () => {
