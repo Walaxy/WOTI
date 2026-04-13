@@ -181,3 +181,47 @@ test('aggregateRawScores sums pairs', () => {
   const buckets = sumsToBuckets(sums, order);
   assert.deepEqual(buckets, ['H', 'L']);
 });
+
+test('resolveOutcome: AVEG / HOME / BRWL exact template match', () => {
+  const patterns = {
+    AVEG: 'MMM-MMM-M',
+    HOME: 'HLL-LLH-L',
+    BRWL: 'MMM-LLH-L',
+    OTHER: 'HHH-HHH-H',
+  };
+  const av = 'MMM-MMM-M'.replace(/-/g, '').split('');
+  const resAveg = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: av,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+    randomFn: () => 1,
+  });
+  assert.equal(resAveg.outcomeCode, 'AVEG');
+  assert.equal(resAveg.reason, 'match');
+
+  const hm = 'HLLLLHL'.split('');
+  const resHome = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: hm,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+    randomFn: () => 1,
+  });
+  assert.equal(resHome.outcomeCode, 'HOME');
+  assert.equal(resHome.reason, 'match');
+
+  const br = 'MMMLLHL'.split('');
+  const resBrwl = resolveOutcome({
+    gateOutcomeOverride: null,
+    userBuckets: br,
+    patterns,
+    matchThreshold: 0.6,
+    fallbackCode: 'VOID',
+    randomFn: () => 1,
+  });
+  assert.equal(resBrwl.outcomeCode, 'BRWL');
+  assert.equal(resBrwl.reason, 'match');
+});

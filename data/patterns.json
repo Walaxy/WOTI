@@ -13,6 +13,9 @@
     "GROW": "LLL-LLHM",
     "JEST": "MLL-LLLM",
     "RANT": "MMH-LLHM",
-    "TANK": "MMM-MMLH"
+    "TANK": "MMM-MMLH",
+    "AVEG": "MMM-MMM-M",
+    "HOME": "HLL-LLH-L",
+    "BRWL": "MMM-LLH-L"
   }
 }
