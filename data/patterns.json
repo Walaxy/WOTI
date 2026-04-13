@@ -2,8 +2,9 @@
   "comment": "",
   "patterns": {
     "OILY": "HHH-MMLH",
+    "STAG": "HHH-MMHM",
     "SALT": "MHH-LLHM",
-    "GAIM": "LLL-HLMM",
+    "GAIM": "LLL-HLHM",
     "HACK": "MMM-LHMM",
     "IDLE": "LLL-LLLM",
     "COMP": "LLL-LLHL",
