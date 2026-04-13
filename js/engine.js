@@ -3,7 +3,7 @@
  * 相似度 = 1 - distance/(dimCount×2)；低于阈值走兜底；闸门题可覆盖隐藏结局。
  *
  * COMP（清醒竞技者）仅在与模板距离为 0 时允许命中；距离 >=1 时跳过，避免「差一点」仍判 COMP。
- * 命中 COMP 后，有 25% 概率被 JOKE（±25% 浮动梗）替代。
+ * 命中 COMP 后，可能被 JOKE（±25% 浮动梗）替代；实际概率见 COMP_TO_JOKE_CHANCE（对用户文案仍用 25% 梗）。
  */
 
 export function stripPattern(patternStr) {
@@ -88,8 +88,8 @@ export function rankPatterns(userBuckets, patterns) {
 
 const COMP_STRICT_CODE = 'COMP';
 const JOKE_CODE = 'JOKE';
-/** COMP 命中后替换为 JOKE 的概率（WG ±25% 梗） */
-export const COMP_TO_JOKE_CHANCE = 0.25;
+/** COMP 命中后替换为 JOKE 的真实概率。界面与文案仍统一为 ±25% 梗，不向用户展示本数值。 */
+export const COMP_TO_JOKE_CHANCE = 0.4;
 
 /**
  * 去掉「距离 > 0 的 COMP」后再取最佳，压低 COMP 出现率。
@@ -102,7 +102,7 @@ export function rankForOutcomePick(rank) {
 
 /**
  * @param {string|null|undefined} gateOutcomeOverride
- * @param {() => number} [randomFn] 返回 [0,1)，默认 Math.random；用于 COMP→JOKE 的 25% 判定与测试
+ * @param {() => number} [randomFn] 返回 [0,1)，默认 Math.random；用于 COMP→JOKE 的随机判定与测试
  */
 export function resolveOutcome({
   gateOutcomeOverride,

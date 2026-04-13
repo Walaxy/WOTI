@@ -87,6 +87,7 @@ test('resolveOutcome: COMP only when distance 0', () => {
     patterns,
     matchThreshold: 0.6,
     fallbackCode: 'VOID',
+    randomFn: () => 1,
   });
   assert.equal(exact.outcomeCode, 'COMP');
   assert.equal(exact.best.distance, 0);
