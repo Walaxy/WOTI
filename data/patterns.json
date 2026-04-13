@@ -7,8 +7,10 @@
     "HACK": "MMM-LHMM",
     "IDLE": "LLL-LLLM",
     "COMP": "LLL-LLHL",
+    "BLAM": "LLH-LLHL",
+    "GAIW": "LLL-HLHL",
     "GROW": "LLL-LLHM",
-    "JEST": "MLM-LLLM",
+    "JEST": "MLL-LLLM",
     "RANT": "MMH-LLHM",
     "TANK": "MMM-MMLH"
   }
