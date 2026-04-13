@@ -56,7 +56,7 @@ function categoryLabel(code, fallbackCode, hiddenCode) {
   return { className: 'gallery-badge gallery-badge-standard', text: '标准' };
 }
 
-function renderCards(outcomes, patterns, fallbackCode, hiddenCode, matchThreshold) {
+function renderCards(outcomes, patterns, fallbackCode, hiddenCode) {
   const root = document.getElementById('gallery-grid');
   root.innerHTML = '';
 
@@ -85,7 +85,7 @@ function renderCards(outcomes, patterns, fallbackCode, hiddenCode, matchThreshol
       <h2 class="gallery-card-name">${escapeHtml(o.nameZh)}</h2>
       <p class="gallery-card-tagline">${escapeHtml(o.tagline)}</p>
     `;
-    const open = () => openDetail(o, patterns, fallbackCode, hiddenCode, matchThreshold, { replaceHash: true });
+    const open = () => openDetail(o, patterns, fallbackCode, hiddenCode, { replaceHash: true });
     article.addEventListener('click', open);
     article.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -98,7 +98,7 @@ function renderCards(outcomes, patterns, fallbackCode, hiddenCode, matchThreshol
   root.appendChild(frag);
 }
 
-function openDetail(o, patterns, fallbackCode, hiddenCode, matchThreshold, { replaceHash = true } = {}) {
+function openDetail(o, patterns, fallbackCode, hiddenCode, { replaceHash = true } = {}) {
   const dlg = document.getElementById('detail-dialog');
   const title = document.getElementById('detail-title');
   const body = document.getElementById('detail-body');
@@ -109,20 +109,6 @@ function openDetail(o, patterns, fallbackCode, hiddenCode, matchThreshold, { rep
     extra += `<div class="gallery-detail-block"><h3>标准模板（7 维 H/M/L）</h3><pre class="gallery-pattern">${escapeHtml(
       patterns[o.code],
     )}</pre><p class="gallery-hint">两组依次为：老玩家文化×3 · 游戏价值观×4</p></div>`;
-  }
-  if (o.code === fallbackCode) {
-    extra += `<div class="gallery-detail-block"><h3>触发条件</h3><p>与 7 个标准模板的最佳相似度低于阈值（当前 ${Math.round(
-      matchThreshold * 100,
-    )}%）时匹配。</p></div>`;
-  }
-  if (o.code === hiddenCode) {
-    extra += `<div class="gallery-detail-block"><h3>触发条件</h3><p>在全部 14 题之后的闸门题中，选择「认定高胜率都是刷分或开挂」的选项。</p></div>`;
-  }
-  if (o.code === 'JOKE') {
-    extra += `<div class="gallery-detail-block"><h3>触发条件</h3><p>与「清醒竞技者（COMP）」7 维模板完全匹配时，<strong>先</strong>按概率判定是否进入本结局（未进入时才会继续判定弹药架）；概率数值见引擎（对用户文案仍用 ±25% 梗）。</p></div>`;
-  }
-  if (o.code === 'BODY') {
-    extra += `<div class="gallery-detail-block"><h3>触发条件</h3><p>与「清醒竞技者（COMP）」7 维模板完全匹配，且<strong>未</strong>进入「±25% 浮动」结局时，有 33% 概率由本结局替代（致敬弹药架殉爆）。</p></div>`;
   }
 
   title.innerHTML = `<span class="gallery-code">${escapeHtml(o.code)}</span> ${escapeHtml(o.nameZh)} <span class="${cat.className}">${escapeHtml(
@@ -168,7 +154,7 @@ async function init() {
     metaEl.textContent = `${Math.round(matchThreshold * 100)}%`;
   }
 
-  renderCards(outcomes, patterns, fallbackCode, hiddenCode, matchThreshold);
+  renderCards(outcomes, patterns, fallbackCode, hiddenCode);
 
   const dlg = document.getElementById('detail-dialog');
   document.getElementById('detail-close')?.addEventListener('click', () => dlg.close());
@@ -184,7 +170,7 @@ async function init() {
       return;
     }
     const o = outcomes.find((x) => x.code === code);
-    if (o) openDetail(o, patterns, fallbackCode, hiddenCode, matchThreshold, { replaceHash: false });
+    if (o) openDetail(o, patterns, fallbackCode, hiddenCode, { replaceHash: false });
   };
 
   tryOpenFromHash();
