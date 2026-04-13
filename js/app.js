@@ -8,6 +8,7 @@ import {
 const OILY_CODE = 'OILY';
 
 const HASH_PREFIX = 'woti=';
+const GALLERY_UNLOCK_KEY = 'woti-gallery-unlocked';
 
 let dimensionsData;
 let questionsData;
@@ -39,6 +40,8 @@ const el = {
   dimBody: () => document.getElementById('dim-body'),
   dimStrip: () => document.getElementById('dim-strip'),
   resultSection: () => document.getElementById('view-result'),
+  navGallery: () => document.getElementById('nav-gallery'),
+  btnGallery: () => document.getElementById('btn-gallery'),
 };
 
 function loadTheme() {
@@ -57,6 +60,19 @@ function toggleTheme() {
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('woti-theme', next);
   el.themeToggle().textContent = next === 'dark' ? '浅色' : '深色';
+}
+
+/** 完成全部题目并结算后开放图鉴；链接分享仅展示结局时不显示结算区图鉴按钮。 */
+function syncGalleryUi() {
+  const unlocked = localStorage.getItem(GALLERY_UNLOCK_KEY) === '1';
+  const fullCompletion = lastResult?.resolved != null;
+  el.navGallery()?.classList.toggle('hidden', !unlocked);
+  el.btnGallery()?.classList.toggle('hidden', !fullCompletion);
+}
+
+function unlockGalleryAfterSettlement() {
+  localStorage.setItem(GALLERY_UNLOCK_KEY, '1');
+  syncGalleryUi();
 }
 
 function showView(name) {
@@ -245,6 +261,7 @@ function computeAndRenderResult() {
   el.dimBody().innerHTML = buildDimensionRows(sums, buckets);
 
   setHashForOutcome(oc.code);
+  unlockGalleryAfterSettlement();
 }
 
 function renderQuestion(index) {
@@ -321,6 +338,7 @@ function restart() {
   gateOptionIndex = null;
   lastResult = null;
   showView('welcome');
+  syncGalleryUi();
 }
 
 function showResultFromHash(code) {
@@ -337,6 +355,7 @@ function showResultFromHash(code) {
   el.dimBody().innerHTML =
     '<p class="lead" style="margin:0">完成全部题目后，将在此显示你在七个维度上的分档与倾向说明。</p>';
   showView('result');
+  syncGalleryUi();
   return true;
 }
 
@@ -374,6 +393,7 @@ async function init() {
   });
 
   showView('welcome');
+  syncGalleryUi();
 }
 
 init().catch((err) => {
