@@ -147,12 +147,13 @@ async function init() {
   loadTheme();
   document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
 
+  const noCache = { cache: 'no-store' };
   const [outcomesPayload, patternsPayload] = await Promise.all([
-    fetch('./data/outcomes.json').then((r) => {
+    fetch('./data/outcomes.json', noCache).then((r) => {
       if (!r.ok) throw new Error('outcomes.json');
       return r.json();
     }),
-    fetch('./data/patterns.json').then((r) => {
+    fetch('./data/patterns.json', noCache).then((r) => {
       if (!r.ok) throw new Error('patterns.json');
       return r.json();
     }),
