@@ -1,0 +1,190 @@
+{
+  "main": [
+    {
+      "id": "q01",
+      "dimensionId": "A1",
+      "text": "有人在群里说「你这个车我当年打钱开了 1w 场, 配件带什么听我的」，你的感受是？",
+      "options": [
+        { "label": "哇是大神, 我真得学习一下", "score": 3 },
+        { "label": "参考一下，但不会特别在意", "score": 2 },
+        { "label": "和场次没关系，我看真实水平和游戏理解", "score": 1 }
+      ]
+    },
+    {
+      "id": "q02",
+      "dimensionId": "A1",
+      "text": "一个账号注册时间2.5年的玩家在群里指导别人走位，你更可能？",
+      "options": [
+        { "label": "好为人师, 才玩多久就装逼起来了?", "score": 3 },
+        { "label": "先不发表意见, 等群里的其他老玩家的看法", "score": 2 },
+        { "label": "直接讨论战术本身，和游戏年限无关", "score": 1 }
+      ]
+    },
+    {
+      "id": "q03",
+      "dimensionId": "A2",
+      "text": "这局赢了，战后你更常说的是？",
+      "options": [
+        { "label": "老子真牛逼, 多亏了我", "score": 3 },
+        { "label": "服务器真给面子", "score": 2 },
+        { "label": "复盘一下哪个决策发挥了关键作用", "score": 1 }
+      ]
+    },
+    {
+      "id": "q04",
+      "dimensionId": "A2",
+      "text": "这局输了，你第一反应是？",
+      "options": [
+        { "label": "Sβ服务器, Sβ队友", "score": 3 },
+        { "label": "算了, 下一把", "score": 2 },
+        { "label": "先想哪个决策我可以改进", "score": 1 }
+      ]
+    },
+    {
+      "id": "q05",
+      "dimensionId": "A3",
+      "text": "一辆以前表现不错的车突然打不出伤害了，可能是？",
+      "options": [
+        { "label": "360卖完车又暗改了, 下次再也不氪金了!", "score": 3 },
+        { "label": "360又针对我, 服务器又针对我", "score": 2 },
+        { "label": "运气不好, 换个车换个心情", "score": 1 }
+      ]
+    },
+    {
+      "id": "q06",
+      "dimensionId": "A3",
+      "text": "连败 5 场之后，你更可能认为？",
+      "options": [
+        { "label": "服务器在针对我, 把把给我分坑逼", "score": 3 },
+        { "label": "运气不好, 换车玩玩", "score": 1 },
+        { "label": "算了, 下线", "score": 1 },
+        { "label": "单纯运气不好, 再玩50场胜率就会恢复到平时水平的", "score": 1 }
+      ]
+    },
+    {
+      "id": "q07",
+      "dimensionId": "A4",
+      "text": "你怎么看国服玩家的整体水平？",
+      "options": [
+        { "label": "跟外服没法比，国服都是代练打脚本，高手都是刷脚本打出来的", "score": 3 },
+        { "label": "感觉不如亚服, 亚服人人都会玩, 更有竞技性", "score": 3 },
+        { "label": "不如莱服一根, 莱服不强制氪金, 福利好, 更多萌新, 环境舒适", "score": 3 },
+        { "label": "有一点差距，但什么服务器都有高手和菜鸟, 别神话外服", "score": 2 }
+      ]
+    },
+    {
+      "id": "q08",
+      "dimensionId": "A4",
+      "text": "看到外服大神的精彩视频，你会？",
+      "options": [
+        { "label": "外服大神就是屌，国服代练们好好学学", "score": 3 },
+        { "label": "就这? 这么走在国服早就死了", "score": 3 },
+        { "label": "这么强, 让我学习一下", "score": 1 }
+      ]
+    },
+    {
+      "id": "q09",
+      "dimensionId": "A5",
+      "text": "有人在频道里分享免费去草软件，你的反应？",
+      "options": [
+        { "label": "还有没有免费的锁子? 这几天野队全是锁, 我也要用, 反正360又不查", "score": 3 },
+        { "label": "嘴上谴责, 但是自己照样用, 反正360又不查", "score": 2 },
+        { "label": "转发成聊天记录, 分享群号, 召唤霉菌", "score": 1 }
+      ]
+    },
+    {
+      "id": "q10",
+      "dimensionId": "A5",
+      "text": "官网又公布了一轮封号名单，你觉得？",
+      "options": [
+        { "label": "怎么他用内置去草没封我用外置的就疯了? 就因为我今年箱子没氪金?", "score": 3 },
+        { "label": "早就说了不要使用偶游盒子, 客服说了除了营地都会封号", "score": 2 },
+        { "label": "好似喵", "score": 1 }
+      ]
+    },
+    {
+      "id": "q11",
+      "dimensionId": "A6",
+      "text": "今晚准备开坦克世界时，你心里更接近哪一种？",
+      "options": [
+        { "label": "就是打发时间，输赢无所谓，上了线已经算完成任务", "score": 1 },
+        { "label": "能赢最好，输了也不至于破防，换车或下线都行", "score": 2 },
+        { "label": "上线就是来赢的，打钱打环做任务至少得推进一样", "score": 3 }
+      ]
+    },
+    {
+      "id": "q12",
+      "dimensionId": "A6",
+      "text": "大比分落后、翻盘希望渺茫，你会？",
+      "options": [
+        { "label": "送了 玩牛魔呢", "score": 1 },
+        { "label": "刷会儿抖音, 爱打不打", "score": 2 },
+        { "label": "直到最后一刻找翻盘机会", "score": 3 }
+      ]
+    },
+    {
+      "id": "q13",
+      "dimensionId": "A7",
+      "text": "你车库里最常出勤的是哪类车？",
+      "options": [
+        { "label": "8金/9金, 我很缺银币", "score": 1 },
+        { "label": "练车ing, 我还在爬线, 努力成为全系玩家", "score": 1 },
+        { "label": "HT/重甲TD玩家, 敢打敢冲", "score": 1 },
+        { "label": "LT玩家, 视野对抗", "score": 1 },
+        { "label": "MT玩家, 哪里需要我就去哪里", "score": 1 },
+        { "label": "都玩一点儿", "score": 1 },
+        { "label": "顶级高隐蔽支援TD/MT, 比如 豹一/蟋蟀", "score": 3 },
+        { "label": "最喜欢炸的准的火炮, 比如261工程", "score": 3 },
+        { "label": "大口径TD, FV4005、183这类, 一发入魂", "score": 3 }
+      ]
+    },
+    {
+      "id": "q14",
+      "dimensionId": "A7",
+      "text": "对于火炮这个车型，你怎么看？",
+      "options": [
+        { "label": "挺好的，轻轻松松就能有输出了，适合下班放松", "score": 3 },
+        { "label": "不喜欢，太被动，是Wargaming失败的设计", "score": 1 },
+        { "label": "偶尔换个口味，不是主力", "score": 2 }        
+      ]
+    }
+  ],
+  "gate": {
+    "id": "q15",
+    "text": "看到有人盒子效率>1500, 而且胜率达到了60%，你的第一反应是？",
+    "options": [
+      {
+        "label": "要么代练，要么挂，要不然就是玩强势车涂油刷的, 只有极少数主播能达到这个效率",
+        "outcomeOverride": "YOUSH"
+      },
+      {
+        "label": "组队刷的吧, 含金量也就一般般",
+        "outcomeOverride": "YOUSH"
+      },
+      {
+        "label": "要是我好好玩, 我也能有1500",
+        "outcomeOverride": null
+      },
+      {
+        "label": "看看他的常用车型, 是不是都是版本强势HT和重甲TD",
+        "outcomeOverride": null
+      },
+      {
+        "label": "还行, 比我差一点",
+        "outcomeOverride": null
+      },
+      {
+        "label": "可以, 比我高一点",
+        "outcomeOverride": null
+      },
+      {
+        "label": "还行, 和我差不多",
+        "outcomeOverride": null
+      },
+      {
+        "label": "看看他的常用车型, 是不是都是版本强势HT和重甲TD",
+        "outcomeOverride": null
+      }
+    ]
+  }
+}

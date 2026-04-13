@@ -1,0 +1,12 @@
+{
+  "comment": "",
+  "patterns": {
+    "OILY": "HHH-MMLH",
+    "SALT": "MHH-LLHM",
+    "GAIM": "LLL-HLMM",
+    "HACK": "MMM-LHMM",
+    "IDLE": "LLL-LLLM",
+    "COMP": "LLL-LLHL",
+    "TANK": "MMM-MMLH"
+  }
+}

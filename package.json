@@ -1,0 +1,11 @@
+{
+  "name": "woti",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "坦克世界主题车长风格评测（静态网页）",
+  "scripts": {
+    "test": "node --test tests/engine.test.js",
+    "start": "npx --yes serve . -p 5173"
+  }
+}

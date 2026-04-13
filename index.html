@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>WOTI · 坦克世界主题车长风格评测</title>
+    <meta
+      name="description"
+      content="非官方娱乐向车长风格评测：七维度、模板匹配、分享结局。灵感来自百度贴吧。"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-left">
+        <a class="brand brand-link" href="./index.html">WOTI</a>
+        <nav class="header-nav" aria-label="站内导航">
+          <a href="./index.html" aria-current="page">评测</a>
+        </nav>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn-ghost" id="theme-toggle" aria-label="切换主题">深色</button>
+      </div>
+    </header>
+    <main id="app-main">
+      <section id="view-welcome" class="card">
+        <h1>车长风格评测（WOTI）</h1>
+        <p class="lead">
+          共 14 道情景题, 从多个侧面描摹你的「车长画像」。
+        </p>
+        <p class="disclaimer">
+          本页面纯属图一乐，与任何游戏官方无关；不构成建议或诊断。题目与结局文案均为原创, 如有雷同纯属巧合，请勿用于商业用途。
+        </p>
+        <p style="margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center">
+          <button type="button" class="btn btn-primary" id="btn-start">开始评测</button>
+        </p>
+      </section>
+
+      <section id="view-quiz" class="card hidden">
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>进度</span>
+            <span id="quiz-progress-text">第 1 / 14 题</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
+          </div>
+        </div>
+        <h2 class="question-title" id="question-title"></h2>
+        <div class="options" id="question-options"></div>
+      </section>
+
+      <section id="view-gate" class="card hidden">
+        <h2 class="question-title" id="gate-title"></h2>
+        <div class="options" id="gate-options"></div>
+      </section>
+
+      <section id="view-result" class="hidden">
+        <div class="card">
+          <div class="result-code" id="result-code"></div>
+          <div class="result-name" id="result-name"></div>
+          <p class="result-tagline" id="result-tagline"></p>
+          <p class="result-desc" id="result-desc"></p>
+          <div class="meta-row" id="result-meta"></div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+            <button type="button" class="btn btn-primary" id="btn-restart">重新评测</button>
+          </div>
+        </div>
+        <div class="card dim-section" id="dim-section">
+          <h2>七维度倾向</h2>
+          <p class="lead" style="margin-top: 0">
+            每个维度由两题得分相加（2–6 分），再分为 L（低）/ M（中）/ H（高）三档；下表为你在各维度上的倾向说明。
+          </p>
+          <div id="dim-strip" class="dim-strip-wrap" aria-label="七维度分档一览"></div>
+          <div id="dim-body"></div>
+        </div>
+      </section>
+
+    </main>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

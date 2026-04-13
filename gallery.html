@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>结局图鉴 · WOTI</title>
+    <meta
+      name="description"
+      content="非官方娱乐向。切勿当真!!!"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-left">
+        <a class="brand brand-link" href="./index.html">WOTI</a>
+        <nav class="header-nav" aria-label="站内导航">
+          <a href="./index.html">评测</a>
+          <a href="./gallery.html" aria-current="page">图鉴</a>
+        </nav>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn-ghost" id="theme-toggle" aria-label="切换主题">深色</button>
+      </div>
+    </header>
+    <main id="gallery-main" class="gallery-page">
+      <div class="card gallery-intro">
+        <h1>结局图鉴(包含一个隐藏结局)</h1>
+      </div>
+      <div id="gallery-grid" class="gallery-grid" role="list"></div>
+    </main>
+
+    <dialog id="detail-dialog" class="gallery-dialog">
+      <div class="gallery-dialog-inner">
+        <div class="gallery-dialog-head">
+          <h2 id="detail-title" class="gallery-dialog-title"></h2>
+          <button type="button" class="btn btn-ghost gallery-dialog-close" id="detail-close" aria-label="关闭">
+            关闭
+          </button>
+        </div>
+        <div id="detail-body" class="gallery-dialog-body"></div>
+      </div>
+    </dialog>
+
+    <script type="module" src="./js/gallery.js"></script>
+  </body>
+</html>
