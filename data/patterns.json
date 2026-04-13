@@ -8,6 +8,8 @@
     "IDLE": "LLL-LLLM",
     "COMP": "LLL-LLHL",
     "GROW": "LLL-LLHM",
+    "JEST": "MLM-LLLM",
+    "RANT": "MMH-LLHM",
     "TANK": "MMM-MMLH"
   }
 }
